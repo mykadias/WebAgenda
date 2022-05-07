@@ -33,20 +33,29 @@ public class RegisterController {
 		
 		try {
 			
-			Usuario usuario = new Usuario();
-			
-			usuario.setNome(model.getNome());
-			usuario.setEmail(model.getEmail());
-			usuario.setSenha(model.getSenha());
-			
 			UsuarioRepository usuarioRepository = new UsuarioRepository();
-			usuarioRepository.create(usuario);
 			
-			modelAndView.addObject("mensagem", "Usuário cadastrado com sucesso!");
+			//verificar se já existe um usuário cadastrado com o email informado
+			if (usuarioRepository.find(model.getEmail()) != null) {
+				
+				modelAndView.addObject("mensagem_erro", "O email informado já está cadastrado para outro usuário");
+			}
+			else {
+			
+				Usuario usuario = new Usuario();
+				
+				usuario.setNome(model.getNome());
+				usuario.setEmail(model.getEmail());
+				usuario.setSenha(model.getSenha());
+				
+				usuarioRepository.create(usuario);
+				
+				modelAndView.addObject("mensagem_sucesso", "Usuário cadastrado com sucesso!");
+			}
 			
 		}
 		catch(Exception e) {
-			modelAndView.addObject("mensagem", e.getMessage());
+			modelAndView.addObject("mensagem_erro", e.getMessage());
 		}
 		
 		modelAndView.addObject("model", new RegisterModel());

@@ -15,5 +15,9 @@ public interface IUsuarioRepository {
 	    List<Usuario> findAll() throws Exception;
 
 	    Usuario findById (Integer idUsuario) throws Exception;
+	    
+	    Usuario find(String email) throws Exception;
+	    
+	    Usuario find(String email, String senha) throws Exception;
 	
 }

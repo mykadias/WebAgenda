@@ -1,5 +1,7 @@
 package br.com.cotiinformatica.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,7 +29,7 @@ public class LoginController {
 	//método para receber o SUBMIT POST do formulário
 	
 	@RequestMapping(value = "/login-user", method = RequestMethod.POST) //ação do formulário
-	public ModelAndView loginUser(LoginModel model) {
+	public ModelAndView loginUser(LoginModel model, HttpServletRequest request) {
 		
 		ModelAndView modelAndView = new ModelAndView("login"); //WEB-INF//views/login.jsp
 		
@@ -37,6 +39,10 @@ public class LoginController {
 			Usuario usuario = usuarioRepository.find(model.getEmail(), model.getSenha());
 			
 			if (usuario != null) { //usuário encontrado
+				
+				//salvar os dados em uma sessão
+				request.getSession().setAttribute("usuario_auth", usuario);
+				
 				//redirecionamento
 				modelAndView.setViewName("redirect:tarefas-consulta");
 				
@@ -54,4 +60,22 @@ public class LoginController {
 		modelAndView.addObject("model", new LoginModel());
 		return modelAndView;
 	}
+	
+	@RequestMapping(value = "/logout")
+	public ModelAndView logout(HttpServletRequest request) {
+		
+		//destruir a sessão
+        request.getSession().removeAttribute("usuario_auth");
+    
+        //redirecionar para o raiz do projeto (página de login)
+        ModelAndView modelAndView = new ModelAndView("redirect:/");
+        
+        return modelAndView;
+
+		
+	}
+	
+	
+	
+	
 }

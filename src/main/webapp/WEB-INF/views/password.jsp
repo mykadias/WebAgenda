@@ -57,10 +57,8 @@
                     <div class="mt-3 text-danger text-center">
                         <strong>${mensagem_erro}</strong>
                     </div>
-
 				</div>
 			</div>
-
 		</div>
 	</div>
 

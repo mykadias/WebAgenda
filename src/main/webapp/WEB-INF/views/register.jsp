@@ -121,11 +121,6 @@
 			}
 		});
 		
-		//validação customizada para campo senha forte
-		$.validator.addMethod('pwcheck', function(value, element){
-			return /^[A-Za-z0-9]+$/.test(value)
-		})
-		
 	});
 	
 	</script>
